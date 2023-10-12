@@ -1,0 +1,167 @@
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Dashboard</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-12">
+          <div class="row">
+
+            <div class="col-xxl-4 col-md-4">
+              <div class="card info-card unit-card">  
+                <a href="#/store/unitmaster">
+                  <div class="card-body">
+                    <h5 class="card-title"> Unit Category </h5> 
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-clipboard-data"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>{{dashboard_unit_list.length}}</h6>  
+                      </div>
+                    </div>
+                  </div>
+                </a> 
+              </div>
+            </div>
+
+            <div class="col-xxl-4 col-md-4">
+              <div class="card info-card product-card">  
+                <a href="#/store/productmaster">
+                  <div class="card-body">
+                    <h5 class="card-title"> Product Category </h5> 
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-tags-fill"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>{{dashboard_product_list.length}}</h6>  
+                      </div>
+                    </div>
+                  </div> 
+                </a>
+              </div>
+            </div>
+
+            <div class="col-xxl-4 col-md-4">
+              <div class="card info-card package-card">  
+                <a href="#/store/packagetype">
+                  <div class="card-body">
+                    <h5 class="card-title"> Pacakage Category </h5> 
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-envelope"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>{{dashboard_package_list.length}}</h6>  
+                      </div>
+                    </div>
+                  </div> 
+                </a>
+              </div>
+            </div>
+             
+            <!-- <div class="col-xxl-4 col-md-4"> 
+              <div class="card info-card store-card"> 
+                <a href="#/store/storemaster">
+                  <div class="card-body">
+                    <h5 class="card-title">Store Master  </h5> 
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-shop"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>{{dashboard_store_list.length}}</h6>  
+                      </div>
+                    </div> 
+                  </div>
+                </a>
+              </div> 
+            </div>  -->
+
+            <div class="col-xxl-4 col-md-4">
+              <div class="card info-card supplier-card">  
+                <a href="#/store/suppliers">
+                  <div class="card-body">
+                    <h5 class="card-title"> Supplier </h5> 
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-people"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>{{dashboard_suppliers_list.length}}</h6>  
+                      </div>
+                    </div>
+                  </div> 
+                </a>
+              </div>
+            </div>
+            
+            <div class="col-xxl-4 col-md-4">
+              <div class="card info-card item-card">  
+                <a href="#/store/itemmaster">
+                  <div class="card-body">
+                    <h5 class="card-title">Item Master</h5> 
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-cart"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6>{{dashboard_item_list.length}}</h6>
+                        <!-- <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span> --> 
+                      </div>
+                    </div>
+                  </div> 
+                </a>
+              </div>
+            </div>  
+
+            <!-- <div class="col-xxl-4 col-md-4">
+              <div class="card info-card inward-card">  
+                <a href="#/store/inward">
+                  <div class="card-body">
+                    <h5 class="card-title">Inward Master</h5> 
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-journal-arrow-down"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6> </h6> 
+                      </div>
+                    </div>
+                  </div> 
+                </a>
+              </div>
+            </div>   -->
+            <!-- <div class="col-xxl-4 col-md-4">
+              <div class="card info-card outward-card">  
+                <a href="#/store/outward">
+                  <div class="card-body">
+                    <h5 class="card-title">Outward Master</h5> 
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-journal-arrow-up"></i>
+                      </div>
+                      <div class="ps-3">
+                        <h6> </h6> 
+                      </div>
+                    </div>
+                  </div> 
+                </a>
+              </div>
+            </div>   -->
+        </div>
+      </div> 
+    </div>
+  </section> 
+</main>

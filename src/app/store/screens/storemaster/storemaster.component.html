@@ -1,0 +1,247 @@
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Store Master</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">storemaster</li>    
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+
+        <!-- ***********************Update Store Form************************** -->
+        <div class="col-lg-4" *ngIf="form_update==2"> 
+          <div class="card">
+            <div class="card-body">  
+              <div class="row">
+                <div class="col-md-6">
+                  <h5 class="card-title">Update Store</h5> 
+                </div>
+                <div class="col-md-6 text-end">
+                  <button class="btn btn-sm btn-primary mt-3" (click)="form_update=1"> <i class="bi bi-plus-lg"></i> Add Store </button>
+                </div>
+              </div>
+              <form [formGroup]="updatestoreform" (ngSubmit)="onUpdate()" novalidate>
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-label" for="exampleInputEmail1">Store Name</label>
+                      <input type="text" class="form-control" formControlName="storeName" minlength="2" placeholder="Enter Unit Short Code" readonly> 
+                      <div *ngIf="updatestoreform.controls['storeName'].invalid && updatestoreform.controls['storeName'].touched" class="text-danger text-center">
+                        <div *ngIf="updatestoreform.controls['storeName'].errors">
+                          Enter min 2 charecters.
+                        </div>
+                      </div>
+                    </div> 
+                  </div> 
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-label" for="exampleInputEmail1">Store Category</label> 
+                      <select class="form-select" formControlName="storeType" >
+                        <option value=""> Select Category</option>
+                        <option value="Central">Central</option>
+                        <option value="Branch">Branch</option>
+                      </select>  
+                    </div> 
+                  </div> 
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-label" for="exampleInputEmail1">Email</label>
+                      <input type="email" class="form-control" formControlName="userId" readonly> 
+                      <div *ngIf="updatestoreform.controls['userId'].invalid && updatestoreform.controls['userId'].touched" class="text-danger text-center">
+                        <div *ngIf="updatestoreform.controls['userId'].errors">
+                          Enter a Valid Email
+                        </div>
+                      </div>
+                    </div> 
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group"> 
+                      <label class="form-label" for="exampleInputEmail1">Campus</label>   
+                      <select class="form-select" multiple formControlName="campus">
+                        <option value=""> Select Campus</option>
+                        <option *ngFor="let x of cmp_list" value="{{x['campus_shortcode']}}"> {{x['campus_name']}} </option>
+                      </select>    
+                    </div> 
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-label"> Product Category</label>  
+                      <select class="form-select" formControlName="productCategory">
+                        <option value=""> Select Category  </option>
+                        <option value="{{x['productCatName']}}" *ngFor="let x of productlist">{{x['productCatName']}}</option>  
+                      </select> 
+                      <div *ngIf="updatestoreform.controls['productCategory'].invalid && updatestoreform.controls['productCategory'].touched" class="text-danger text-center">
+                        <div *ngIf="updatestoreform.controls['productCategory'].errors">
+                         Select Product Category
+                        </div>
+                      </div> 
+                    </div> 
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-label"> Store Status</label> 
+                      <select class="form-select" formControlName="storeStatus">
+                          <option value=""> Select Status</option> 
+                          <option value="Active"> Active</option> 
+                          <option value="Deactive"> Not Active</option> 
+                      </select> 
+                    </div>
+                  </div>
+                </div> 
+                <div>
+                  <div class="m-2"> 
+                    <button type="submit" *ngIf="show_loading==1" class="btn btn-primary btn-sm" [disabled]="updatestoreform.invalid">Update</button> 
+                    <button class="spinner-border text-primary" *ngIf="show_loading==2"  role="status"> 
+                      <span class="visually-hidden">Loading...</span>  
+                    </button> 
+                  </div>
+                </div>
+              </form>     
+            </div>
+          </div> 
+        </div> 
+
+        <!-- ***********************ADD Store Form************************** -->
+        <div class="col-lg-4" *ngIf="form_update==1"> 
+          <div class="card">
+            <div class="card-body"> 
+              <h5 class="card-title">Add Store</h5> 
+              <form [formGroup]="storeform" (ngSubmit)="onSubmit()"  novalidate>
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-label" for="exampleInputEmail1">Store Name</label>
+                      <input type="text" class="form-control" formControlName="storeName" minlength="2"> 
+                      <div *ngIf="storeform.controls['storeName'].invalid && storeform.controls['storeName'].touched" class="text-danger text-center">
+                        <div *ngIf="storeform.controls['storeName'].errors">
+                          Enter min 2 charecters.
+                        </div>
+                      </div>
+                    </div> 
+                  </div> 
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-label" for="exampleInputEmail1">Store Category</label> 
+                      <select class="form-select" formControlName="storeType" >
+                        <option value=""> Select Category</option>
+                        <option value="Central">Central</option>
+                        <option value="Branch">Branch</option>
+                      </select> 
+                      <div *ngIf="storeform.controls['storeType'].invalid && storeform.controls['storeType'].touched" class="text-danger text-center">
+                        <div *ngIf="storeform.controls['storeType'].errors">
+                          Select StoreCategery.
+                        </div>
+                      </div>
+                    </div>  
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-label" for="exampleInputEmail1">Email</label>
+                      <input type="email" class="form-control" formControlName="userId" > 
+                      <div *ngIf="storeform.controls['userId'].invalid && storeform.controls['userId'].touched" class="text-danger text-center">
+                        <div *ngIf="storeform.controls['userId'].errors">
+                          Enter a Valid Email
+                        </div>
+                      </div>
+                    </div> 
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-label" for="exampleInputEmail1">Campus</label>   
+                      <select class="form-select" multiple formControlName="campus">
+                        <option value=""> Select Campus</option> 
+                        <option *ngFor="let x of cmp_list" value="{{x['campus_shortcode']}}"> {{x['campus_name']}} </option>
+                      </select>  
+                      <div *ngIf="storeform.controls['campus'].invalid && storeform.controls['campus'].touched" class="text-danger text-center">
+                        <div *ngIf="storeform.controls['campus'].errors">
+                          Select Campus.
+                        </div>
+                      </div>
+                    </div> 
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group"> 
+                      <label class="form-label"> Product Category</label>  
+                      <select class="form-select" formControlName="productCategory">
+                        <option value=""> Select Category  </option>
+                        <option value="{{x['productCatName']}}" *ngFor="let x of productlist">{{x['productCatName']}}</option>  
+                      </select> 
+                      <div *ngIf="updatestoreform.controls['productCategory'].invalid && updatestoreform.controls['productCategory'].touched" class="text-danger text-center">
+                        <div *ngIf="updatestoreform.controls['productCategory'].errors">
+                         Select Product Category
+                        </div>
+                      </div>  
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="form-label"> Store Status</label> 
+                      <select class="form-select" formControlName="storeStatus">
+                          <option value=""> Select Status</option> 
+                          <option value="Active"> Active</option> 
+                          <option value="No"> Not Active</option> 
+                      </select>
+                      <div *ngIf="storeform.controls['storeStatus'].invalid && storeform.controls['storeStatus'].touched" class="text-danger text-center">
+                        <div *ngIf="storeform.controls['storeStatus'].errors">
+                          Select Store Status.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+                <div class="m-2">
+                  <button type="reset" class="btn btn-secondary btn-sm" >Clear</button> &nbsp; &nbsp;
+                  <button type="submit" *ngIf="show_loading==1"  [disabled]="storeform.invalid" class="btn btn-primary btn-sm" >Submit</button>
+                  <button class="spinner-border text-primary" *ngIf="show_loading==2"  role="status"> 
+                    <span class="visually-hidden">Loading...</span>  
+                  </button> 
+                </div>
+              </form>     
+            </div>
+          </div> 
+        </div> 
+
+        <!-- *********************** Show Table ************************** -->
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Details </h5>
+                    <table class="table table-bodered">
+                        <thead>
+                            <tr>
+                                <th> S.No</th>
+                                <th> Store Name</th>
+                                <th> Campus</th>
+                                <th> Category</th>
+                                <th> Product Category</th> 
+                                <th> Store Status</th>
+                                <th> Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            <tr *ngFor="let store of storelist | filter:'Active'; let i = index">
+                                <td>{{i+1}}</td>
+                                <td> {{store['storeName']}} </td>
+                                <td> {{store['campus']}} </td>
+                                <td> {{store['storeType']}}</td> 
+                                <td> {{store['productCategory']}} </td>
+                                <td> {{store['storeStatus']}} </td>
+                                <td> 
+                                    <div class="text-center">
+                                      <button class="btn btn-primary btn-sm" (click)="editbtn(store)" ><i class="bi bi-pencil-square"></i></button>   
+                                    </div>
+                                </td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section> 
+  </main>

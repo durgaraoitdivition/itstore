@@ -1,0 +1,58 @@
+<main class="body">
+  <div class="container mh-100">
+    <div class="row g-0 bg-white rounded-4 shadow-lg align-content-center mh-100">
+      <div class="col-lg-8 col-md-6 text-right mh-100">
+            <aside class="ms-auto h-100 rounded-start-4 mobile-rounded  gr  p-lg-cstm text-center vcenter-hcenter">
+                <img src="assets/img/analysis_banner.png" class="whiteStoke rounded-4 shadow-lg" alt=""/> 
+          </aside>
+        </div>
+        <div class="col-lg-4 col-md-6 align-self-center">
+          <div class="RightBlock row px-3  py-3 ">
+              <div class="loginCntHeader align-self-start text-center">
+                <img src="assets/img/aei-logo-black.png" class="logo">
+              </div>
+              <div  class="loginCntMiddle align-self-center text-center">
+                <aside class="loginBlk">
+                      <h4 class="fw-bold">Login</h4>
+                      <h5 *ngIf="loginerr!=''" class="text-danger">{{loginerr}}</h5>
+                      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                          <label for="email">Email</label>
+                          <input
+                            type="email"
+                            id="email"
+                            class="form-control"
+                            formControlName="email"
+                          />
+                          <div *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched" class="error">
+                            Email is required.
+                          </div>
+                          <div *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched" class="error">
+                            Invalid email format.
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="password">Password</label>
+                          <input
+                            type="password"
+                            id="password"
+                            class="form-control"
+                            formControlName="password"
+                          />
+                          <div *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched" class="error">
+                            Password is required.
+                          </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Login</button>
+                      </form>
+                  </aside>
+              </div>
+              <div  class="loginCntFooter align-self-end text-center">
+                  <img src="assets/img/analysis_logo.png" class="footer-logo">
+              </div>
+          </div>
+        </div>
+        
+   </div>
+</div>
+  </main>

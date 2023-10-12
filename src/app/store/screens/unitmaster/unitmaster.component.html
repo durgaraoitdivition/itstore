@@ -1,0 +1,128 @@
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Unit Master</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li> 
+          <li class="breadcrumb-item active">unitmaster</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <!-- *********** Update Units ********** -->
+        
+        <div class="col-lg-6" *ngIf="update_form==2"> 
+          <div class="card">
+            <div class="card-body"> 
+              <div class="row">
+                <div class="col-md-7">  
+                  <h5 class="card-title">Update Unit</h5>
+                </div>
+                <div class="col-md-5 text-end">
+                  <button class="btn btn-primary btn-sm mt-3" (click)="update_form=1"> <i class="bi bi-plus-lg"></i> Add </button>
+                </div>
+              </div>
+              <form [formGroup]="updateunitform" (ngSubmit)="onUpdate()"  novalidate>
+                <div class="row g-3">  
+                  <div class="col-md-12 col-12">
+                    <div class="form-group">
+                      <label class="form-label">Unit Name</label>
+                      <input type="text" class="form-control" formControlName="unitCategory" minlength="2"> 
+                      <div *ngIf="updateunitform.controls['unitCategory'].invalid && updateunitform.controls['unitCategory'].touched" class="text-danger text-center">
+                        <div *ngIf="updateunitform.controls['unitCategory'].errors">
+                          Enter min 2 charecters.
+                        </div>
+                      </div>
+                    </div>  
+                  </div>   
+                </div> 
+                <div class="m-2"> 
+                  <button type="submit" *ngIf="show_loading==1" [disabled]="updateunitform.invalid" class="btn btn-primary btn-sm" >Submit</button>
+                  <button class="spinner-border text-primary" *ngIf="show_loading==2"  role="status"> 
+                    <span class="visually-hidden">Loading...</span>  
+                  </button> 
+                </div>
+              </form>    
+            </div>
+          </div> 
+        </div> 
+
+        <!-- *********** Add Units ************* -->
+        <div class="col-lg-6" *ngIf="update_form==1"> 
+          <div class="card">
+            <div class="card-body"> 
+              <h5 class="card-title">Add unit</h5> 
+              <form [formGroup]="unitform" (ngSubmit)="onSubmit()"  novalidate>
+                <div class="row g-3">  
+                  <div class="col-md-12 col-12">
+                    <div class="form-group">
+                      <label class="form-label">Unit Name</label>
+                      <input type="text" class="form-control" formControlName="unitCategory" minlength="2"> 
+                      <div *ngIf="unitform.controls['unitCategory'].invalid && unitform.controls['unitCategory'].touched" class="text-danger text-center">
+                        <div *ngIf="unitform.controls['unitCategory'].errors">
+                          Enter min 2 charecters.
+                        </div>
+                      </div>
+                    </div>  
+                  </div>  
+                  <div class="col-md-12 col-12">
+                    <div class="form-group">
+                      <label class="form-label">Unit Shortcode</label>
+                      <input type="text" class="form-control" formControlName="unitShortCode" minlength="2"> 
+                      <div *ngIf="unitform.controls['unitShortCode'].invalid && unitform.controls['unitShortCode'].touched" class="text-danger text-center">
+                        <div *ngIf="unitform.controls['unitShortCode'].errors">
+                          Enter min 2 charecters.
+                        </div>
+                      </div>
+                    </div>
+                  </div>   
+                </div> 
+                <div class="m-2">
+                  <button type="reset" class="btn btn-secondary btn-sm " >Clear</button> &nbsp; &nbsp;
+                  <button type="submit" *ngIf="show_loading==1" [disabled]="unitform.invalid" class="btn btn-primary btn-sm ">Submit</button> 
+                  <button class="spinner-border text-primary" *ngIf="show_loading==2"  role="status"> 
+                    <span class="visually-hidden">Loading...</span>  
+                  </button> 
+                </div>
+              </form>    
+            </div>
+          </div> 
+        </div> 
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Details </h5>
+                    <table  id="example" class="table table-bodered" datatable [dtOptions]="unitinfo">
+                        <thead>
+                            <tr>
+                                <th> S.No</th>
+                                <th> Name</th>
+                                <th> ShortCode</th> 
+                                <th> Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            <tr *ngFor="let unitlist of unitnames; let i = index">
+                                <td>{{i+1}}</td>
+                                <td> {{unitlist['unitCategory']}} </td>
+                                <td> {{unitlist['unitShortCode']}}</td> 
+                                <td> 
+                                    <div class="text-center">
+                                      <button class="btn btn-primary btn-sm" (click)="onedit(unitlist)" ><i class="bi bi-pencil-square"></i></button> &nbsp; 
+                                    </div>
+                                </td>
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+
+  </main>

@@ -1,0 +1,423 @@
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Items</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Itemmaster</li>    
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+            <!-- **************** Update Item ***************  --> 
+            <div class="col-lg-12" *ngIf="display_form==3"> 
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6"> 
+                                <h5 class="card-title">Update Item</h5>
+                            </div>
+                            <div class="col-md-6 text-end mt-3">
+                                <button type="submit" class="btn btn-success btn-sm" (click)="display_form=1"> <i class="bi bi-plus-lg" > </i> Add Item </button> 
+                            </div>
+                        </div> 
+                    <form [formGroup]="updateitemform" (ngSubmit)="onUpdate()"  novalidate>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-2">
+                                <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Item Name</label>  
+                                <input type="text" class="form-control" formControlName="itemName" minlength="3">
+                                <div *ngIf="updateitemform.controls['itemName'].invalid && updateitemform.controls['itemName'].touched" class="text-danger  ">
+                                    <div *ngIf="updateitemform.controls['itemName'].errors">
+                                    Enter Min 3 Charecters.
+                                    </div>
+                                </div>
+                                </div>  
+                            </div>
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Item Short Code</label> 
+                                <input type="text" class="form-control" formControlName="itemId">
+                                <div *ngIf="updateitemform.controls['itemId'].invalid && updateitemform.controls['itemId'].touched" class="text-danger  ">
+                                    <div *ngIf="updateitemform.controls['itemId'].errors">
+                                    Enter Min 3 Charecters.
+                                    </div>
+                                </div>
+                                </div>   
+                            </div>
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Item Category</label> 
+                                    <select class="form-select" formControlName="itemCategory">
+                                        <option value=""> Select Category  </option>
+                                        <option value="{{x['productCatName']}}" *ngFor="let x of productlist">{{x['productCatName']}}</option>  
+                                    </select>
+                                    <div class="text-danger text-center" *ngIf="itemform.controls['itemCategory'].invalid && itemform.controls['itemCategory'].touched">
+                                        <div *ngIf="itemform.controls['itemCategory'].errors">
+                                        Select Category
+                                        </div>
+                                    </div> 
+                                </div>  
+                            </div>
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Item SubCategory</label> 
+                                <select class="form-select" formControlName="itemSubCategory">
+                                    <option value=""> Select Sub Category  </option>
+                                    <option value="{{x['productSubCat']}}" *ngFor="let x of productsublist">{{x['productSubCat']}}</option>  
+                                </select>
+                                <div class="text-danger text-center" *ngIf="updateitemform.controls['itemSubCategory'].invalid && updateitemform.controls['itemSubCategory'].touched">
+                                    <div *ngIf="updateitemform.controls['itemSubCategory'].errors">
+                                    Select sub Category
+                                    </div>
+                                </div> 
+                                </div>  
+                            </div>
+                            
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Units</label>  
+                                    <select class="form-select" formControlName="units">
+                                        <option value=""> Select Unit </option>
+                                        <option value="{{x['unitCategory']}}" *ngFor="let x of unitnames">{{x['unitCategory']}}</option>  
+                                    </select>
+                                    <div class="text-danger text-center" *ngIf="updateitemform.controls['units'].invalid && updateitemform.controls['units'].touched">
+                                        <div *ngIf="updateitemform.controls['units'].errors">
+                                        Select Unit
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label class="form-label" class="form-label" class="form-label" class="form-label"> Fixed Asset </label>  
+                                    <select class="form-select" formControlName="isFixedAsset">
+                                        <option value=""> Select </option>
+                                        <option value="true"> Yes </option>
+                                        <option value="false"> No </option> 
+                                    </select>
+                                </div> 
+                            </div>
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label class="form-label" class="form-label" class="form-label" class="form-label"> Internal Usage</label> 
+                                    <select class="form-select" formControlName="internalUseOnly">
+                                        <option value=""> Select </option>
+                                        <option value="true"> Yes </option>
+                                        <option value="false"> No </option> 
+                                    </select>
+                                </div> 
+                            </div>
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label class="form-label" class="form-label" class="form-label" class="form-label"> Item State</label> 
+                                    <select class="form-select" formControlName="isActive">
+                                        <option value=""> Select </option>
+                                        <option value="true"> Active </option>
+                                        <option value="false"> Not Active </option> 
+                                    </select>
+                                </div> 
+                            </div>
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label class="form-label" class="form-label" class="form-label" class="form-label">Service </label> 
+                                    <select class="form-select" formControlName="isService">
+                                        <option value=""> Select </option>
+                                        <option value="true"> Yes </option>
+                                        <option value="false"> No</option> 
+                                    </select>
+                                </div> 
+                            </div>
+                        </div> 
+                        <div> 
+                        <div class="text-end"> 
+                            <button type="submit" *ngIf="show_loading==1" [disabled]="updateitemform.invalid" class="btn btn-primary btn-sm" >Update</button>
+                            <button class="spinner-border text-primary" *ngIf="show_loading==2" role="status"> 
+                              <span class="visually-hidden">Loading...</span>  
+                            </button> 
+                        </div>
+                        </div>
+                    </form>     
+                    </div>
+                </div> 
+            </div>  
+
+            <!-- **************** Add Item ****************  -->
+            <div class="col-lg-12" *ngIf="display_form==1"> 
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6"> 
+                            <h5 class="card-title">Add Item</h5>
+                        </div>
+                        <div class="col-md-6 text-end mt-3">
+                            <button type="submit" class="btn btn-success btn-sm" (click)="item_dt()"> Item Details<i class="bi bi-chevron-right"></i> </button> 
+                        </div>
+                    </div> 
+                <form [formGroup]="itemform" (ngSubmit)="onSubmit()"  novalidate>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-group mb-2">
+                            <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Item Name</label>  
+                            <input type="text" class="form-control" formControlName="itemName" minlength="3">
+                            <div *ngIf="itemform.controls['itemName'].invalid && itemform.controls['itemName'].touched" class="text-danger  ">
+                                <div *ngIf="itemform.controls['itemName'].errors">
+                                Enter Min 3 Charecters.
+                                </div>
+                            </div>
+                            </div>  
+                        </div>
+                        <div class="col-md-6"> 
+                            <div class="form-group">
+                            <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Item Short Code</label> 
+                            <input type="text" class="form-control" formControlName="itemId">
+                            <div *ngIf="itemform.controls['itemId'].invalid && itemform.controls['itemId'].touched" class="text-danger  ">
+                                <div *ngIf="itemform.controls['itemId'].errors">
+                                Enter Min 3 Charecters.
+                                </div>
+                            </div>
+                            </div>   
+                        </div>
+                        <div class="col-md-6"> 
+                            <div class="form-group">
+                                <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Item Category</label>  
+                                <select class="form-select" formControlName="itemCategory">
+                                    <option value=""> Select Category  </option>
+                                    <option value="{{x['productCatName']}}" *ngFor="let x of productlist">{{x['productCatName']}}</option>  
+                                </select>
+                                <div class="text-danger text-center" *ngIf="itemform.controls['itemCategory'].invalid && itemform.controls['itemCategory'].touched">
+                                    <div *ngIf="itemform.controls['itemCategory'].errors">
+                                    Select Category 
+                                    </div>
+                                </div> 
+                            </div>  
+                        </div>
+                        <div class="col-md-6"> 
+                            <div class="form-group">
+                                <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Item SubCategory</label>  
+                                <select class="form-select" formControlName="itemSubCategory">
+                                    <option value=""> Select Sub Category  </option>
+                                    <option value="{{x['productSubCat']}}" *ngFor="let x of productsublist">{{x['productSubCat']}}</option>  
+                                </select>
+                                <div class="text-danger text-center" *ngIf="itemform.controls['itemSubCategory'].invalid && itemform.controls['itemSubCategory'].touched">
+                                    <div *ngIf="itemform.controls['itemSubCategory'].errors">
+                                    Select sub Category
+                                    </div>
+                                </div> 
+                            </div>  
+                        </div>
+                        <!-- <div class="col-md-6"> 
+                            <div class="form-group">
+                            <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Brand Name</label> 
+                            <input type="text" class="form-control" formControlName="brandName" minlength="3">
+                            <div *ngIf="itemform.controls['brandName'].invalid && itemform.controls['brandName'].touched" class="text-danger  ">
+                                <div *ngIf="itemform.controls['brandName'].errors">
+                                Enter Min 3 Charecters
+                                </div>
+                            </div>
+                            </div>  
+                        </div>
+                        <div class="col-md-6"> 
+                            <div class="form-group">
+                            <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Manufacture</label> 
+                            <input type="text" class="form-control" formControlName="manufacturer" minlength="3">
+                            <div *ngIf="itemform.controls['manufacturer'].invalid && itemform.controls['manufacturer'].touched" class="text-danger  ">
+                                <div *ngIf="itemform.controls['manufacturer'].errors">
+                                Enter Min 3 Charecters
+                                </div>
+                            </div>
+                            </div>  
+                        </div>
+                        <div class="col-md-6"> 
+                            <div class="form-group">
+                                <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Model Number</label> 
+                                <input type="text" class="form-control" formControlName="modelNo" minlength="2"> 
+                                <div *ngIf="itemform.controls['modelNo'].invalid && itemform.controls['modelNo'].touched" class="text-danger  ">
+                                <div *ngIf="itemform.controls['modelNo'].errors">
+                                    Enter Min 3 Charecters
+                                </div>
+                                </div>
+                            </div>   
+                        </div>
+                        <div class="col-md-6"> 
+                            <div class="form-group">
+                                <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Item Id</label> 
+                                <input type="text" class="form-control" formControlName="itemId" minlength="3"> 
+                                <div *ngIf="itemform.controls['itemId'].invalid && itemform.controls['itemId'].touched" class="text-danger  ">
+                                <div *ngIf="itemform.controls['itemId'].errors">
+                                    Enter Min 3 Charecters
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6"> 
+                            <div class="form-group">
+                                <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Package Type</label> 
+                                <input type="text" class="form-control" formControlName="packageType" minlength="3"> 
+                                <div *ngIf="itemform.controls['packageType'].invalid && itemform.controls['packageType'].touched" class="text-danger  ">
+                                <div *ngIf="itemform.controls['packageType'].errors">
+                                    Enter Min 3 Charecters
+                                </div>
+                                </div>
+                            </div>   
+                        </div> -->
+                        <div class="col-md-6"> 
+                            <div class="form-group">
+                                <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Units</label>  
+                                <select class="form-select" formControlName="units">
+                                    <option value=""> Select Unit </option>
+                                    <option value="{{x['unitCategory']}}" *ngFor="let x of unitnames">{{x['unitCategory']}}</option>  
+                                </select>
+                                <div class="text-danger text-center" *ngIf="itemform.controls['units'].invalid && itemform.controls['units'].touched">
+                                    <div *ngIf="itemform.controls['units'].errors">
+                                    Select Unit
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="col-md-6"> 
+                            <div class="form-group">
+                                <label class="form-label" class="form-label" class="form-label" class="form-label"> Fixed Asset </label>  
+                                <select class="form-select" formControlName="isFixedAsset">
+                                    <option value=""> Select </option>
+                                    <option value="true"> Yes </option>
+                                    <option value="false"> No </option> 
+                                </select>
+                            </div> 
+                        </div>
+                        <div class="col-md-6"> 
+                            <div class="form-group">
+                                <label class="form-label" class="form-label" class="form-label" class="form-label"> Internal Usage</label> 
+                                <select class="form-select" formControlName="internalUseOnly">
+                                    <option value=""> Select </option>
+                                    <option value="true"> Yes </option>
+                                    <option value="false"> No </option> 
+                                </select>
+                            </div> 
+                        </div>
+                        <div class="col-md-6"> 
+                            <div class="form-group">
+                                <label class="form-label" class="form-label" class="form-label" class="form-label"> Item State</label> 
+                                <select class="form-select" formControlName="isActive">
+                                    <option value=""> Select </option>
+                                    <option value="true"> Active </option>
+                                    <option value="false"> Not Active </option> 
+                                </select>
+                            </div> 
+                        </div>
+                        <div class="col-md-6"> 
+                            <div class="form-group">
+                                <label class="form-label" class="form-label" class="form-label" class="form-label">Service </label> 
+                                <select class="form-select" formControlName="isService">
+                                    <option value=""> Select </option>
+                                    <option value="true"> Yes </option>
+                                    <option value="false"> No</option> 
+                                </select>
+                            </div> 
+                        </div>
+                    </div> 
+                    <div>
+                    <button type="reset" class="btn btn-secondary btn-sm m-3" >Clear</button>
+                    <button type="submit" *ngIf="show_loading==1"  [disabled]="itemform.invalid" class="btn btn-primary btn-sm" >Submit</button>
+                    <button class="spinner-border text-primary" *ngIf="show_loading==2"  role="status"> 
+                      <span class="visually-hidden">Loading...</span>  
+                    </button> 
+                    </div>
+                </form>     
+                </div>
+            </div>
+    
+            </div>  
+            <!-- **************** Item Details ************ -->
+            <div class="col-lg-12" *ngIf="display_form==2"> 
+                <div class="card">
+                    <div class="card-body"> 
+                        <div class="row">
+                            <div class="col-md-6"> 
+                                <h5 class="card-title">Item Details</h5>
+                            </div>
+                            <div class="col-md-6 text-end mt-3">
+                                <button type="submit" class="btn btn-success btn-sm" (click)="display_form=1"> <i class="bi bi-plus-lg" > </i> Add Item </button> 
+                            </div>
+                        </div> 
+                        <table class="table table-sm" datatable [dtOptions]="dtOptions">
+                            <thead>
+                                <tr>
+                                    <th> S.no</th>
+                                    <th> Item Id</th>
+                                    <th> Item Name</th>
+                                    <th> Item Category</th> 
+                                    <th> Item Sub Category</th> 
+                                    <th> Item Details</th>
+                                    <th> Edit</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let x of itemlist; let i = index"> 
+                                <tr>
+                                    <td>{{i+1}}</td>
+                                    <td>{{x['itemId']}}</td>
+                                    <td> {{x['itemName']}}</td>
+                                    <td> {{x['itemCategory']}}</td>  
+                                    <td> {{x['itemSubCategory']}}</td>  
+                                    <td data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="moredetails(x)">
+                                        <button class="btn btn-success btn-sm"> <i class="bi bi-search" > </i> More </button> 
+                                    </td> 
+                                    <td>
+                                        <button class="btn btn-primary btn-sm"  (click)="edit(x)"><i class="bi bi-pencil-square"></i>  </button>
+                                     </td>
+                                </tr>  
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+      </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" *ngIf="modalitem_name">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"> <label class="form-label" class="form-label" class="form-label" class="form-label"> {{modalitem_name.itemName}} </label><br> 
+                <span class="text-muted"> {{modalitem_name.itemCategory}} | {{modalitem_name.itemSubCategory}} </span>
+            </h5><br>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"> 
+                <table class="tale table-sm"> 
+                    <tr> 
+                        <th> Units</th> <th>:</th>
+                        <td>{{modalitem_name.units}}</td>
+                    </tr> 
+                    <tr> 
+                        <th> Package Type</th>  <th>:</th>
+                        <td>{{modalitem_name.packageType}}</td>
+                    </tr> 
+                    <tr> 
+                        <th> IsActive</th> <th>:</th>
+                        <td>{{modalitem_name.isActive}}</td>
+                    </tr>
+                    <tr> 
+                        <th> IsService</th> <th>:</th>
+                        <td>{{modalitem_name.isService}}</td>
+                    </tr>
+                    <tr> 
+                        <th> IsFixedasset</th> <th>:</th>
+                        <td>{{modalitem_name.isFixedAsset}}</td>
+                    </tr>
+                    <tr> 
+                        <th> Internal Use Only</th> <th>:</th>
+                        <td>{{modalitem_name.internalUseOnly}}</td>
+                    </tr>
+                </table> 
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> 
+            </div>
+        </div>
+        </div>
+    </div>
+    </section> 
+  </main>

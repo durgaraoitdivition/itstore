@@ -1,0 +1,93 @@
+<main id="main" class="main"> 
+    <div class="pagetitle">
+      <h1>OrderInfo Master</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Orderinfo</li>    
+        </ol>
+      </nav>
+    </div><!-- End Page Title --> 
+    <section class="section"> 
+        <div class="card">
+            <div class="card-body">   
+                <h5 class="card-title"> OrderInfo </h5> 
+                <div class="row g-3"> 
+                    <form [formGroup]="orderform" >
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label" class="form-label" class="form-label" class="form-label" for="exampleInputEmail1">Search</label>  
+                                <input type="text" class="form-control" formControlName="orderidsearch" minlength="6" (keyup)="ordersearch($event)"> 
+                            </div>  
+                        </div>
+                    </form>
+                    <div class="col-md-12" *ngIf="ordered_item_details.length!=0">
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr> 
+                                    <th> S.no </th> 
+                                    <th> Item Category </th>
+                                    <th> Item Id </th> 
+                                    <th> Item Name </th> 
+                                    <th> Package Type </th>
+                                    <th> Quantity </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let x of ordered_item_details; let i=index">
+                                    <td> {{i+1}} </td>
+                                    <td> {{x.itemCategory}} </td>
+                                    <td> {{x.itemId}} </td>
+                                    <td> {{x.itemName}} </td>
+                                    <td> {{x.packageType}} </td>
+                                    <td> {{x.quantity}} </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> 
+                    <form [formGroup]="orderform" (ngSubmit)="onOrderSubmit()" *ngIf="ordered_item_details.length!=0">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label" for="exampleInputEmail1">Select Status</label>
+                                    <select class="form-select" formControlName="orderStatus" >
+                                        <option value=""> Select Status</option> 
+                                        <option value="Shipped"> Shipped </option>  
+                                        <option value="Received"> Received </option>
+                                    </select> 
+                                </div>  
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label" for="exampleInputEmail1">Select Type</label>
+                                    <select class="form-select" formControlName="orderType" >
+                                        <option value=""> Select Type</option>
+                                        <option value="courier"> Courier </option>
+                                        <option value="transport"> Transport </option>
+                                        <option value="self"> Self </option>
+                                    </select> 
+                                </div> 
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="form-label" for="exampleInputEmail1">Other Info</label>
+                                    <textarea  class="form-control" rows="1" cols="50" formControlName="orderInfo" > </textarea>
+                                </div> 
+                            </div>
+                            
+                        <div class="col-md-12 text-center mt-2" *ngIf="ordered_items.length!=0">
+                            <div class="form-group">
+                               <button class="btn btn-primary btn-sm" *ngIf="show_submit_button==1"> Submit </button>
+                               <button class="spinner-border text-primary" *ngIf="show_submit_button==2" role="status"> 
+                                 <span class="visually-hidden">Loading...</span>  
+                               </button> 
+                            </div> 
+                        </div>
+                        </div>
+                    </form>                           
+                </div>
+            </div>
+        </div>  
+    </section> 
+  </main>

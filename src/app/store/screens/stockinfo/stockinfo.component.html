@@ -1,0 +1,88 @@
+<main id="main" class="main"> 
+    <div class="pagetitle">
+      <h1>Store Register</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">StoreRegister</li>    
+        </ol>
+      </nav>
+    </div><!-- End Page Title --> 
+    <section class="section"> 
+        <div class="card">
+
+            <!-- Card Data Div -->
+            <div class="card-body" *ngIf="stockinfolist.length!=0 && show_qty==1">   
+              <h5 class="card-title"> Store Register </h5>
+                 <table class="table table-sm" datatable [dtOptions]="stockinfo">
+                  <thead>
+                    <tr>
+                      <th> S.no</th>
+                      <th> Item ID</th>
+                      <th> Item Name</th>
+                      <th> Category</th>
+                      <th> Sub Category</th>
+                      <th> Package Type</th>
+                      <th> Units</th>
+                      <th> Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let x of stockinfolist;let i=index">
+                      <td> {{i+1}} </td>
+                      <td> {{x.itemDetails.itemId}} </td>
+                      <td> {{x.itemDetails.itemName}} </td>
+                      <td> {{x.itemDetails.itemCategory}} </td>
+                      <td> {{x.itemDetails.itemSubCategory}} </td>
+                      <td> {{x.itemDetails.packageType}} </td>
+                      <td> {{x.itemDetails.units}} </td>
+                      <td class="pointer-class" (click)="onQtyClick(x)" > {{x.quantity}} </td>
+                    </tr>
+                  </tbody>
+                 </table>
+            </div> 
+
+            <!-- Card Data Not Found Div -->
+            <div class="card-body" *ngIf="stockinfolist.length==0">
+              <h5 class="card-title text-danger text-center"> No data Found </h5>
+            </div>
+
+            <!-- Card Data for Quantity Div -->
+            <div class="card-body" *ngIf="show_qty==2">
+              <h5 class="card-title"> Items Quantity List</h5>
+              <div class="row mb-2">
+                <div class="col-md-3"> 
+                  <label> Item Id </label> <br>
+                  <h6 class="item-qty-style"> {{qtylist[0].itemId}} </h6>
+                </div>
+                <div class="col-md-4"> 
+                  <label> Item Name </label><br>
+                  <h6 class="item-qty-style"> {{qtylist[0].itemName}} </h6>
+                </div>
+                <div class="col-md-3"> 
+                  <label> Item Category </label><br>
+                  <h6 class="item-qty-style"> {{qtylist[0].itemCategory}}-{{qtylist[0].itemSubCategory}}</h6>
+                </div> 
+              </div>
+              <table class="table table-sm" datatable [dtOptions]="stockqtyinfo">
+                <thead>
+                  <tr>
+                    <th> S.no </th> 
+                    <th> Order Number </th>
+                    <th> Type </th>
+                    <th> Status </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let x of qtylist;let i=index">
+                    <td> {{i+1}} </td> 
+                    <td> {{x.orderNumber}} </td>
+                    <td> {{x.inoutType}} </td>
+                    <td> {{x.shipmentStatus}} </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>  
+    </section> 
+  </main>

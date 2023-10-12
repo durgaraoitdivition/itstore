@@ -1,0 +1,121 @@
+<main id="main" class="main"> 
+    <div class="pagetitle">
+      <h1>Package Master</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">packagemaster</li>    
+        </ol>
+      </nav>
+    </div><!-- End Page Title --> 
+    <section class="section">
+      <div class="row">
+        <!-- ************* Update Package ********* -->
+        <div class="col-lg-6" *ngIf="update_form==2"> 
+          <div class="card">
+            <div class="card-body"> 
+              <div class="row">
+                <div class="col-md-7">  
+                  <h5 class="card-title">Update Pacakge</h5>
+                </div>
+                <div class="col-md-5 text-end">
+                  <button class="btn btn-primary btn-sm mt-3" (click)="update_form=1"> <i class="bi bi-plus-lg"></i> Add </button>
+                </div>
+              </div>
+              <form [formGroup]="updatepackageform" (ngSubmit)="onUpdate()"  novalidate>  
+                <div class="row g-3">
+                    <div class="col-md-12 col-12">
+                        <div class="form-group">
+                            <label class="form-label"> Package Name</label>   
+                            <input type="text" class="form-control" formControlName="packTypeName" minlength="3"> 
+                            <div class="text-danger text-center" *ngIf="updatepackageform.controls['packTypeName'].invalid && updatepackageform.controls['packTypeName'].touched">
+                                <div *ngIf="updatepackageform.controls['packTypeName'].errors">
+                                  Enter Min 3 Charecters.
+                                </div>
+                            </div>
+                        </div> 
+                    </div> 
+                </div>  
+                <div class="m-2">  
+                  <button type="submit" *ngIf="show_loading==1" [disabled]="updatepackageform.invalid" class="btn btn-primary btn-sm" >Submit</button> 
+                  <button class="spinner-border text-primary" *ngIf="show_loading==2"  role="status"> 
+                    <span class="visually-hidden">Loading...</span>  
+                  </button> 
+                </div>
+              </form>     
+            </div>
+          </div> 
+        </div> 
+        
+        <!-- ************* Add Package *********** -->
+        <div class="col-lg-6" *ngIf="update_form==1"> 
+          <div class="card">
+            <div class="card-body"> 
+              <h5 class="card-title">Add Package</h5> 
+              <form [formGroup]="packageform" (ngSubmit)="onSubmit()"  novalidate>  
+                <div class="row g-3">
+                    <div class="col-md-6 col-12">
+                      <div class="form-group mb-2">
+                          <label class="form-label"> Package Name</label>   
+                          <input type="text" class="form-control" formControlName="packTypeName" minlength="3"> 
+                          <div class="text-danger text-center" *ngIf="updatepackageform.controls['packTypeName'].invalid && updatepackageform.controls['packTypeName'].touched">
+                              <div *ngIf="updatepackageform.controls['packTypeName'].errors">
+                                Enter Min 3 Charecters.
+                              </div>
+                          </div>
+                      </div> 
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group mb-2">
+                            <label class="form-label"> Package Short Code</label>
+                            <input type="text" class="form-control" formControlName="packTypeShortCode" minlength="3">    
+                            <div class="text-danger text-center" *ngIf="packageform.controls['packTypeShortCode'].invalid && packageform.controls['packTypeShortCode'].touched">
+                                <div *ngIf="packageform.controls['packTypeShortCode'].errors">
+                                Enter Min 3 Charecters.
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>  
+                <div class="m-2"> 
+                  <button type="reset" class="btn btn-secondary btn-sm" >Clear</button> &nbsp; &nbsp;
+                  <button type="submit" *ngIf="show_loading==1" [disabled]="packageform.invalid" class="btn btn-primary btn-sm" >Submit</button>
+                  <button class="spinner-border text-primary" *ngIf="show_loading==2"  role="status"> 
+                    <span class="visually-hidden">Loading...</span>  
+                  </button> 
+                </div> 
+              </form>     
+            </div>
+          </div> 
+        </div> 
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Details </h5>
+                    <table class="table table-bodered">
+                        <thead>
+                            <tr>
+                                <th> S.No</th>
+                                <th> Package Name</th>  
+                                <th> Package Short Code</th>
+                                <th> Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            <tr *ngFor="let package of packagelist; let i = index">
+                                <td>{{i+1}}</td>
+                                <td> {{package['packTypeName']}} </td>  
+                                <td>{{package['packTypeShortCode']}}</td>
+                                <td>
+                                  <button class="btn btn-primary btn-sm" (click)="onedit(package)"><i class="bi bi-pencil-square"></i></button>
+                                </td>
+                            </tr> 
+                        </tbody>
+                    </table> 
+                </div>
+            </div>
+        </div>
+      </div>
+    </section> 
+  </main>

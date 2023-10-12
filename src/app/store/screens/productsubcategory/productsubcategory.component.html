@@ -1,0 +1,155 @@
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Product Master</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">productmaster</li>    
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <!--  ************ Update Sub Category *********** -->
+        <div class="col-lg-4" *ngIf="update_form==2"> 
+            <div class="card">
+              <div class="card-body"> 
+                <div class="row">
+                  <div class="col-md-7">  
+                    <h5 class="card-title">Update SubCategory</h5>
+                  </div>
+                  <div class="col-md-5 text-end">
+                    <button class="btn btn-primary btn-sm mt-3" (click)="update_form=1"> <i class="bi bi-plus-lg"></i> Add </button>
+                  </div>
+                </div>
+                <form [formGroup]="updateproductsubform" (ngSubmit)="onUpdate()"  novalidate>  
+                  <div class="row g-3"> 
+                      <div class="col-md-12">
+                          <div class="form-group ">
+                              <label class="form-label" > Category</label>  
+                              <select class="form-select" formControlName="productCategory" (change)="onChange($event)">
+                                  <option value=""> Select Category  </option>
+                                  <option value="{{x['productCatName']}}" *ngFor="let x of productlist">{{x['productCatName']}}</option>  
+                              </select>
+                              <div class="text-danger text-center" *ngIf="updateproductsubform.controls['productCategory'].invalid && updateproductsubform.controls['productCategory'].touched">
+                                  <div *ngIf="updateproductsubform.controls['productCategory'].errors">
+                                  Select Category to enter sub Category
+                                  </div>
+                              </div> 
+                          </div> 
+                      </div>
+                      <div class="col-md-12" *ngIf="show_select==2 && !updateproductsubform.controls['productCategory'].errors">
+                          <div class="form-group">
+                              <label class="form-label"> Sub Category Name</label> 
+                              <input type="text" class="form-control" formControlName="productSubCat" minlength="3"> 
+                              <div class="text-danger text-center" *ngIf="updateproductsubform.controls['productSubCat'].invalid && updateproductsubform.controls['productSubCat'].touched">
+                                  <div *ngIf="updateproductsubform.controls['productSubCat'].errors">
+                                      Enter Min 3 Charecters.
+                                  </div>
+                              </div>  
+                          </div> 
+                      </div> 
+                  </div> 
+                   <div class="m-2"> 
+                        <button type="submit" *ngIf="show_loading==1" [disabled]="updateproductsubform.invalid" class="btn btn-primary btn-sm" >Submit</button> 
+                        <button class="spinner-border text-primary" *ngIf="show_loading==2"  role="status"> 
+                          <span class="visually-hidden">Loading...</span>  
+                        </button> 
+                   </div>
+                </form>    
+              </div>
+            </div>  
+        </div> 
+ 
+        <!-- ************* Add Sub Category ************* -->
+        <div class="col-lg-4" *ngIf="update_form==1"> 
+          <div class="card">
+            <div class="card-body"> 
+              <h5 class="card-title">Add Product</h5> 
+              <form [formGroup]="productform" (ngSubmit)="onSubmit()"  novalidate>  
+                <div class="row g-3"> 
+                    <div class="col-md-12">
+                        <div class="form-group ">
+                            <label class="form-label" > Category</label>  
+                            <select class="form-select" formControlName="productCategory" (change)="onChange($event)">
+                                <option value=""> Select Category  </option>
+                                <option value="{{x['productCatName']}}" *ngFor="let x of productlist">{{x['productCatName']}}</option>  
+                            </select>
+                            <div class="text-danger text-center" *ngIf="productform.controls['productCategory'].invalid && productform.controls['productCategory'].touched">
+                                <div *ngIf="productform.controls['productCategory'].errors">
+                                Select Category to enter sub Category
+                                </div>
+                            </div> 
+                        </div> 
+                    </div>
+                    <div class="col-md-12" *ngIf="show_select==2 && !productform.controls['productCategory'].errors">
+                        <div class="form-group">
+                            <label class="form-label"> Sub Category Name</label> 
+                            <input type="text" class="form-control" formControlName="productSubCat" minlength="3"> 
+                            <div class="text-danger text-center" *ngIf="productform.controls['productSubCat'].invalid && productform.controls['productSubCat'].touched">
+                                <div *ngIf="productform.controls['productSubCat'].errors">
+                                    Enter Min 3 Charecters.
+                                </div>
+                            </div>  
+                        </div> 
+                    </div>
+                    <div class="col-md-12" *ngIf="show_select==2 && !productform.controls['productCategory'].errors">
+                        <div class="form-group">
+                            <label class="form-label"> Sub Category Short Name</label>  
+                            <input type="text" class="form-control" formControlName="productSubCatCode" minlength="3"> 
+                            <div class="text-danger text-center" *ngIf="productform.controls['productSubCatCode'].invalid && productform.controls['productSubCatCode'].touched">
+                                <div *ngIf="productform.controls['productSubCatCode'].errors">
+                                    Enter Min 3 Charecters.
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div> 
+                <div class="m-2">
+                     <button type="reset" class="btn btn-secondary btn-sm" >Clear</button> &nbsp; &nbsp;
+                     <button type="submit" *ngIf="show_loading==1"  [disabled]="productform.invalid" class="btn btn-primary btn-sm" >Submit</button> 
+                     <button class="spinner-border text-primary" *ngIf="show_loading==2"  role="status"> 
+                       <span class="visually-hidden">Loading...</span>  
+                     </button> 
+                </div> 
+              </form>    
+            </div>
+          </div> 
+
+        </div> 
+
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Details </h5> 
+                    <table class="table table-bodered">
+                        <thead>
+                            <tr>
+                                <th> S.No</th>
+                                <th> SubCategory Name</th> 
+                                <th> ShortCode</th>
+                                <th> Category</th> 
+                                <th> Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            <tr *ngFor="let productsub of productsublist; let i = index">
+                                <td> {{i+1}}</td>
+                                <td> {{productsub['productSubCat']}} </td>  
+                                <td> {{productsub['productSubCatCode']}} </td>
+                                <td> {{productsub['productCategory']}}</td>
+                                <td>
+                                  <button class="btn btn-primary btn-sm" (click)="onedit(productsub)"><i class="bi bi-pencil-square"></i></button>
+                                </td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+
+  </main>

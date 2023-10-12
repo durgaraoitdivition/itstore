@@ -1,0 +1,178 @@
+<main id="main" class="main"> 
+    <div class="pagetitle">
+      <h1>Outward Master</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Outward</li>    
+        </ol>
+      </nav>
+    </div><!-- End Page Title --> 
+    <section class="section"> 
+        <div class="card">
+            <div class="card-body">   
+                <h5 class="card-title"> Outward </h5>
+                <form  #stockentry="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="exampleInputEmail1">Select Type</label>
+                                <select class="form-select" name="type" [(ngModel)]="type" (change)="onSelectType(type)" required>
+                                    <option value=""> Select</option>
+                                    <option value="Store">Store</option> 
+                                    <option value="Supplier">Supplier</option>
+                                    <option value="Faculty">Faculty</option>
+                                    <option value="Student">Student</option>
+                                </select> 
+                                <!-- <div *ngIf="inwardform.controls['type'].invalid && inwardform.controls['type'].touched" class="text-danger text-center">
+                                  <div *ngIf="inwardform.controls['type'].errors">
+                                    Select Type
+                                  </div>
+                                </div> -->
+                            </div>  
+                        </div>
+                        <div class="col-md-4"  [hidden]="show_select==3 || show_select==1">
+                            <div class="form-group">
+                                <label class="form-label" for="exampleInputEmail1">Select InStore</label>
+                                <select class="form-select" name="supplier" [(ngModel)]="supplier"  (change)="onInStoreChng(supplier)" required>
+                                    <option value=""> Select</option>
+                                    <option value="{{x._id}}" *ngFor="let x of get_str_data; let i=index">{{x.storeCode}}</option>  
+                                </select> 
+                            </div>  
+                        </div>
+                        <div class="col-md-4" [hidden]="show_select==3 || show_select==1">
+                            <div class="form-group">
+                                <label class="form-label" for="exampleInputEmail1">Select OutStore</label>
+                                <select class="form-select" name="store" [(ngModel)]="store" (change)="onOutStoreChng(store)" required>
+                                    <option value=""> Select</option>
+                                    <option value="{{x._id}}" *ngFor="let x of storelist; let i=index">{{x.storeCode}}</option>  
+                                </select> 
+                            </div>  
+                        </div>
+                        <div class="col-md-4" [hidden]="show_select==1 || show_select==2">
+                            <div class="form-group">
+                                <label class="form-label" for="exampleInputEmail1">Select Supplier</label>
+                                <select class="form-select" name="select_supplier" [(ngModel)]="select_supplier" (change)="onSupplierchng(select_supplier)"  required>
+                                    <option value=""> Select</option>
+                                    <option value="{{x._id}}"*ngFor="let x of supplierslist; let i=index">{{x.companyName}}</option>  
+                                </select> 
+                            </div>  
+                        </div> 
+                    </div> 
+                    <div class="row mt-3"  [hidden]="show_select!=3 && show_select!=2">
+                        <div class="col-md-12">
+                            <div class="form-group position-relative">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="form-label" for="exampleInputEmail1">Has Serial No?</label>
+                                        <select class="form-select" name="HasSerialNo" [(ngModel)]="HasSerialNo" (change)="onserialno(HasSerialNo)" required>
+                                            <option value=""> Select</option>
+                                            <option value="Yes">Yes</option> 
+                                            <option value="No">No</option>
+                                        </select> 
+                                    </div>
+                                    <div class="col-md-9">
+                                        <label class="form-label" for="exampleInputEmail1">Search Item</label>
+                                        <div class="input-group mb-3">
+                                            <input style="border-radius: 0;" type="text" class="form-control roundedfa-rotate-0" placeholder="Search Item" minlength="2" aria-describedby="basic-addon2" name="searchText" [(ngModel)]="searchText" (keyup)="searchdatafilter(searchText)" required>
+                                            <span class="input-group-text rounded-0" id="basic-addon2"><i class="bi bi-search"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <section class="searchToplyr" [hidden]="searchResults.length==0">
+                                    <table class="table table-bordered">  
+                                        <thead>
+                                            <tr> 
+                                                <th> Item Code</th>
+                                                <th> Item Name</th> 
+                                                <th> Item Category</th>
+                                                <th> Item Sub Category</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody> 
+                                            <tr class="pointer-class" *ngFor="let x of searchResults; let i = index" (click)="onSelect(x, i)"> 
+                                                <td>{{x.itemId}}</td>
+                                                <td>{{x.itemName}}</td> 
+                                                <td>{{x.itemCategory}}</td> 
+                                                <td>{{x.itemSubCategory}}</td> 
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </section>
+                            </div>  
+                        </div>
+                        <div class="col-md-12" [hidden]="arrayitems.length==0">
+                            <table class="table table-sm"> 
+                                <thead>
+                                    <tr> 
+                                        <th> S.no </th>
+                                        <th> Item ID</th> 
+                                        <th> Item Name</th> 
+                                        <th> Item Category</th>
+                                        <th> Item Sub Category</th>
+                                        <th> Quantity</th>
+                                        <th>Serial No</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let x of arrayitems; let i = index"> 
+                                        <td> {{i+1}}</td>
+                                        <td> {{x.itemId}}</td> 
+                                        <td>{{x.itemName}}</td> 
+                                        <td>{{x.itemCategory}}</td> 
+                                        <td>{{x.itemSubCategory}}</td> 
+                                        <td> 
+                                            <input
+                                            style="width: 50px"
+                                            type="number"
+                                            [(ngModel)]="x.quantity"
+                                            [name]="'quantity_' + i"
+                                            (keyup)="onarraychange(x, i)"
+                                            [disabled]="x.HasSerialNo === 'Yes'"
+                                            required
+                                            >
+                                        </td>
+                                        <td>    
+                                           <input type="text" name="SerialNo_{{i}}" [(ngModel)]="x.SerialNo" (keydown)="onarraychange(x,i)" placeholder="Enter Serial No" required>
+                                        </td>
+                                        <td class="pointer-class text-danger" (click)="removeItem(x)"> <i class="bi bi-trash-fill"></i> </td>
+                                   </tr>
+                                </tbody>
+                            </table>  
+                        </div>
+                    </div> 
+                    <h5 class="card-title mb-0" *ngIf="arrayitems.length>=1"> Billing Info </h5>
+                    <div class="row" *ngIf="arrayitems.length>=1"> 
+                        <div class="col-md-3">
+                            <div class="form-group"> 
+                                <label class="form-label" for="exampleInputEmail1">Date</label>
+                                <input type="date" class="form-control" name="billingdate" value="2023-13-02" [(ngModel)]="billingdate" required>  
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group"> 
+                                <label class="form-label" for="exampleInputEmail1">Number</label>
+                                <input type="text" class="form-control" name="billingnumber" [(ngModel)]="billingnumber">  
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group"> 
+                                <label class="form-label" for="exampleInputEmail1">Narration</label>
+                                <textarea  class="form-control" rows="1" cols="50" name="billingnarration" [(ngModel)]="billingnarration"> </textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-2" *ngIf="arrayitems.length>=1">
+                        <div class="text-center">
+                            <button class="btn btn-primary btn-sm" *ngIf="show_submit_button==2"> Submit </button> 
+                            <button class="spinner-border text-primary" *ngIf="show_submit_button==3" role="status"> 
+                              <span class="visually-hidden">Loading...</span>  
+                            </button> 
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>  
+    </section> 
+  </main>

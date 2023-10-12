@@ -1,0 +1,142 @@
+<main id="main" class="main"> 
+    <div class="pagetitle">
+      <h1>Inward Master</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Inward</li>    
+        </ol>
+      </nav>
+    </div><!-- End Page Title --> 
+    <section class="section"> 
+        <div class="card">
+            <div class="card-body">   
+                <h5 class="card-title"> Inward </h5>
+                <form [formGroup]="inwardform" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="exampleInputEmail1">Select Type</label>
+                                <select class="form-select" formControlName="type" (change)="onSelectType($event)">
+                                    <option value=""> Select</option>
+                                    <option value="Supplier">Supplier</option> 
+                                    <option value="OpenBalance">Open Balance</option>
+                                </select> 
+                                <!-- <div *ngIf="inwardform.controls['type'].invalid && inwardform.controls['type'].touched" class="text-danger text-center">
+                                  <div *ngIf="inwardform.controls['type'].errors">
+                                    Select Type
+                                  </div>
+                                </div> -->
+                            </div>  
+                        </div>
+                        <div class="col-md-4" *ngIf="show_supp==1">
+                            <div class="form-group">
+                                <label class="form-label" for="exampleInputEmail1">Select Supplier</label>
+                                <select class="form-select" (change)="onSupplierchng($event)" formControlName="supplier" required>
+                                    <option value=""> Select</option>
+                                    <option value="{{x._id}}" *ngFor="let x of supplierslist; let i=index">{{x.companyName}}</option>  
+                                </select> 
+                            </div>  
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="exampleInputEmail1">Select Store</label>
+                                <select class="form-select" (change)="onstorechng($event)" formControlName="store">
+                                    <option value=""> Select</option>
+                                    <option value="{{x._id}}" *ngFor="let x of get_str_data; let i=index">{{x.storeCode}}</option>  
+                                </select> 
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="form-group position-relative">
+                                <div class="input-group mb-3">
+                                    <input style="border-radius: 0;" type="text" class="form-control roundedfa-rotate-0" placeholder="Search Item" minlength="2" aria-describedby="basic-addon2" formControlName="searchText" (keyup)="searchdatafilter($event)">
+                                    <span class="input-group-text rounded-0" id="basic-addon2"><i class="bi bi-search"></i></span>
+                                </div>
+                                <section class="searchToplyr" *ngIf="filtertext!=''">
+                                    <table class="table table-bordered">  
+                                        <thead>
+                                            <tr> 
+                                                <th> Item Code</th>
+                                                <th> Item Name</th> 
+                                                <th> Item Category</th>
+                                                <th> Item Sub Category</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody> 
+                                            <tr class="pointer-class" (click)="onSelect(x)" *ngFor="let x of itemlist | filter:filtertext"> 
+                                                <td>{{x.itemId}}</td>
+                                                <td>{{x.itemName}}</td> 
+                                                <td>{{x.itemCategory}}</td> 
+                                                <td>{{x.itemSubCategory}}</td> 
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </section>
+                            </div>  
+                        </div>
+                        <div class="col-md-12" *ngIf="arrayitems.length!=0">
+                            <table class="table table-sm"> 
+                                <thead>
+                                    <tr> 
+                                        <th> S.no </th>
+                                        <th> Item ID</th> 
+                                        <th> Item Name</th> 
+                                        <th> Item Category</th>
+                                        <th> Item Sub Category</th>
+                                        <th> Quantity</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let x of arrayitems; let i = index;"> 
+                                        <td> {{i+1}}</td>
+                                        <td> {{x.itemId}}</td> 
+                                        <td>{{x.itemName}}</td> 
+                                        <td>{{x.itemCategory}}</td> 
+                                        <td>{{x.itemSubCategory}}</td> 
+                                        <td > 
+                                            <input style="width: 50px" type="text" [(ngModel)]=x.quantity  [name]="'quantity_' + i" [ngModelOptions]="{standalone: true}" onkeypress="return event.charCode>47 && event.charCode<58" (keydown)="onarraychange()">
+                                        </td>
+                                        <td class="pointer-class text-danger" (click)="removeItem(x)"> <i class="bi bi-trash-fill"></i> </td>
+                                   </tr>
+                                </tbody>
+                            </table>  
+                        </div>
+                    </div> 
+                    <h5 class="card-title mb-0" *ngIf="arrayitems.length>=1"> Billing Info </h5>
+                    <div class="row" *ngIf="arrayitems.length>=1"> 
+                        <div class="col-md-3">
+                            <div class="form-group"> 
+                                <label class="form-label" for="exampleInputEmail1">Date</label>
+                                <input type="date" class="form-control" value="2023-13-02" formControlName="billingdate">  
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group"> 
+                                <label class="form-label" for="exampleInputEmail1">Number</label>
+                                <input type="text" class="form-control" formControlName="billingnumber">  
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group"> 
+                                <label class="form-label" for="exampleInputEmail1">Narration</label>
+                                <textarea  class="form-control" rows="1" cols="50" formControlName="billingnarration"> </textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <div class="text-center">
+                            <button class="btn btn-primary btn-sm" *ngIf="show_submit_button==2"> Submit </button> 
+                            <button class="spinner-border text-primary" *ngIf="show_submit_button==3" role="status"> 
+                              <span class="visually-hidden">Loading...</span>  
+                            </button> 
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>  
+    </section> 
+  </main>
