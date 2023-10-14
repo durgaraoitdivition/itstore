@@ -38,7 +38,7 @@ export class StockinfoComponent {
     // });  
     
     this._authenticationService.getstoreitemlist(this.str_id.storeDetails[0]._id).subscribe(data => {
-      console.log(data);
+      // console.log(data);
       this.stockinfolist = data; 
     });  
     
@@ -70,17 +70,17 @@ export class StockinfoComponent {
 
   onQtyClick(dt: any){
     this.show_qty=2;
-    console.log(dt);
+    // console.log(dt);
     let post_obj = {
       "storeRegId": dt.storeRegId.toString(), 
       "storeId": parseInt(dt.storeId), 
       "campus": dt.campus.toString(), 
       "itemId": parseInt(dt.itemId)
     }
-    console.log(post_obj);
+    // console.log(post_obj);
      
     this._authenticationService.poststoreitemlist(post_obj).subscribe(data => {
-      console.log(data);
+      // console.log(data);
       this.qtylist = data; 
     }); 
      

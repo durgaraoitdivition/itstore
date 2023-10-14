@@ -40,7 +40,7 @@ export class OutwardComponent {
   billingnarration: string = '';
   SerialNo : string = '';
   uniqueId : number = 1;
-  quantity: number=0;
+  quantity: string='';
   searchResults: any[] = []; // Initialize the search results array
   uniqueIdCounter: number = 1;
 
@@ -132,49 +132,125 @@ export class OutwardComponent {
     }
     
   }
-
-  onSelect(selected_dt : any=[], idx:any){  
-    console.log(idx);
-    this.searchText= '';
+  onSelectitem(itemid:any){
+    this.searchText= itemid
     this.filtertext = '';
-    
     this.searchResults = [];
-    this.selectedlist_items = this.itemlist.filter((e: { itemCode: any }) => e.itemCode === selected_dt.itemCode);  
-    let totalqty = this.store_inward_list.filter((e: { itemCode: any }) => e.itemCode === selected_dt.itemCode);  
-    let filteritem = this.arrayitems.filter((e:{itemId: any;}) => e.itemId == selected_dt.itemId);
-    let finalsum = this.sumValuesByKey(filteritem, 'quantity');
+  }
+  additems(){
+    // console.log(this.inwardform);
+    let item_id = this.searchText;
+    let quantity =  this.quantity
+    
+    this.searchText= ''
+    this.filtertext = '';
+    this.selectedlist_items = this.itemlist.filter((e: { itemId: any }) => e.itemId == item_id);   
+    // console.log(this.selectedlist_items[0])   
+    
+    let totalqty = this.store_inward_list.filter((e: { itemId: any }) => e.itemId === item_id);  
+    // console.log(totalqty);
+    let filteritem = this.arrayitems.filter((e:{itemId: any;}) => e.itemId == item_id);
+    var finalsum;
+    if(filteritem.length==0){
+      finalsum = quantity;
+    } else {
+      finalsum = this.sumValuesByKey(filteritem, 'quantity');
+    }
+    console.log(finalsum);
     if(totalqty[0].quantity<=finalsum){
       alert("Item quantity alredy reached");
     } else{
       var filterdata = this.selectedlist_items[0]
-      const originalObject = this.arrayitems.find(item => item._id === filterdata._id);
-
-      if (originalObject) {
-        // If a matching object is found, create a new object based on the original and add unique identifiers to both.
-        const uniqueIdentifierDuplicate = this.generateUniqueIdentifier();
-        const uniqueObjectDuplicate = { ...filterdata, identifier: uniqueIdentifierDuplicate };
-        this.arrayitems.push(uniqueObjectDuplicate);
-      } else {
-        // If no matching object is found, push the duplicate object as is.
-        const uniqueIdentifier = this.generateUniqueIdentifier();
-        filterdata.identifier = uniqueIdentifier;
-        this.arrayitems.push(filterdata);
-      }
+      
       
       // console.log(this.selectedlist_items[0])
       if(this.HasSerialNo=='Yes'){
-        filterdata.quantity=1;
+        for(let i=0; i<parseInt(quantity); i++){
+          const originalObject = this.arrayitems.find(item => item._id === filterdata._id);
+
+          if (originalObject) {
+            // If a matching object is found, create a new object based on the original and add unique identifiers to both.
+            const uniqueIdentifierDuplicate = this.generateUniqueIdentifier();
+            const uniqueObjectDuplicate = { ...filterdata, identifier: uniqueIdentifierDuplicate };
+            this.arrayitems.push(uniqueObjectDuplicate);
+          } else {
+            // If no matching object is found, push the duplicate object as is.
+            const uniqueIdentifier = this.generateUniqueIdentifier();
+            filterdata.identifier = uniqueIdentifier;
+            this.arrayitems.push(filterdata);
+          }
+          filterdata.quantity=1;
+          filterdata.HasSerialNo=this.HasSerialNo;
+        }
       } else {
-        filterdata.quantity=0;
+        const originalObject = this.arrayitems.find(item => item._id === filterdata._id);
+
+          if (originalObject) {
+            // If a matching object is found, create a new object based on the original and add unique identifiers to both.
+            const uniqueIdentifierDuplicate = this.generateUniqueIdentifier();
+            const uniqueObjectDuplicate = { ...filterdata, identifier: uniqueIdentifierDuplicate };
+            this.arrayitems.push(uniqueObjectDuplicate);
+          } else {
+            // If no matching object is found, push the duplicate object as is.
+            const uniqueIdentifier = this.generateUniqueIdentifier();
+            filterdata.identifier = uniqueIdentifier;
+            this.arrayitems.push(filterdata);
+          }
+          filterdata.quantity=quantity;
+          filterdata.HasSerialNo=this.HasSerialNo;
       }
-        
-      filterdata.HasSerialNo=this.HasSerialNo;
+      
       // this.arrayitems.push(this.selectedlist_items[0]);
       this.selectedlist_items = [];
-    } 
-     
-    console.log(this.arrayitems);  
+    
+      this.quantity= '';
+    
+    }
+    this.show_submit_button = 2;
   }
+
+  // onSelect(selected_dt : any=[], idx:any){  
+  //   console.log(idx);
+  //   this.searchText= '';
+  //   this.filtertext = '';
+    
+  //   this.searchResults = [];
+  //   this.selectedlist_items = this.itemlist.filter((e: { itemCode: any }) => e.itemCode === selected_dt.itemCode);  
+  //   let totalqty = this.store_inward_list.filter((e: { itemCode: any }) => e.itemCode === selected_dt.itemCode);  
+  //   let filteritem = this.arrayitems.filter((e:{itemId: any;}) => e.itemId == selected_dt.itemId);
+  //   let finalsum = this.sumValuesByKey(filteritem, 'quantity');
+  //   if(totalqty[0].quantity<=finalsum){
+  //     alert("Item quantity alredy reached");
+  //   } else{
+  //     var filterdata = this.selectedlist_items[0]
+  //     const originalObject = this.arrayitems.find(item => item._id === filterdata._id);
+
+  //     if (originalObject) {
+  //       // If a matching object is found, create a new object based on the original and add unique identifiers to both.
+  //       const uniqueIdentifierDuplicate = this.generateUniqueIdentifier();
+  //       const uniqueObjectDuplicate = { ...filterdata, identifier: uniqueIdentifierDuplicate };
+  //       this.arrayitems.push(uniqueObjectDuplicate);
+  //     } else {
+  //       // If no matching object is found, push the duplicate object as is.
+  //       const uniqueIdentifier = this.generateUniqueIdentifier();
+  //       filterdata.identifier = uniqueIdentifier;
+  //       this.arrayitems.push(filterdata);
+  //     }
+      
+  //     // console.log(this.selectedlist_items[0])
+  //     if(this.HasSerialNo=='Yes'){
+  //       filterdata.quantity=1;
+  //     } else {
+  //       filterdata.quantity=0;
+  //     }
+        
+  //     filterdata.HasSerialNo=this.HasSerialNo;
+  //     // this.arrayitems.push(this.selectedlist_items[0]);
+  //     this.selectedlist_items = [];
+  //   } 
+     
+  //   console.log(this.arrayitems);  
+  // }
   generateUniqueIdentifier(): string {
     // Generate a unique identifier, such as a timestamp or random value.
     return Date.now().toString();
@@ -184,20 +260,7 @@ export class OutwardComponent {
   // }
   
   onarraychange(item_info : any=[],item_indx: number){  
-    this.show_submit_button = 2; 
-    let temp_variable = this.store_inward_list.filter((e:{itemId: any;}) => e.itemId == item_info.itemId);
-    // console.log(item_info.quantity,temp_variable[0].quantity)
-    let filteritem = this.arrayitems.filter((e:{itemId: any;}) => e.itemId == item_info.itemId);
-    let finalsum = this.sumValuesByKey(filteritem, 'quantity')
-    if(finalsum>parseInt(temp_variable[0].quantity)){
-      alert("Enter the Quantity below "+temp_variable[0].quantity);
-      this.arrayitems[item_indx].quantity = 0;
-      this.arrayitems[item_indx].SerialNo = '';
-    }else{
-      this.arrayitems[item_indx].quantity = item_info.quantity;
-      this.arrayitems[item_indx].SerialNo = item_info.SerialNo;
-    }
-    // console.log(this.arrayitems);
+    this.arrayitems[item_indx].SerialNo = item_info.SerialNo;
   }  
   sumValuesByKey(arrobj : any,key: string): number {
     return arrobj.reduce((sum:any, arrobj:any) => sum + (arrobj[key] || 0), 0);
@@ -244,15 +307,15 @@ export class OutwardComponent {
         "storeId":this.str_id.storeDetails[0]._id,
         "campus" : this.str_id.storeDetails[0].defaultCampus
     }
-    console.log(post_obj); 
+    // console.log(post_obj); 
     this._authenticationService.postinoutward(post_obj).subscribe(data => {
-      console.log(data); 
+      // console.log(data); 
       if(data[0].status==500){ 
         alert(data[0].msg);
       }else{  
         // sessionStorage.setItem('order_details',JSON.stringify(data));
         alert(data[0].msg);
-        window.location.href = "#/in-out"
+        // window.location.href = "#/in-out"
       }
     });
   }

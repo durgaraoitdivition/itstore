@@ -34,7 +34,7 @@ export class InwardComponent {
       type:['',[ Validators.required]],
       supplier:['',[ Validators.required]],
       store:['',[ Validators.required]], 
-      // quantity:['',[ Validators.required]],
+      quantity:['',[ Validators.required]],
       searchText:['',[ Validators.required]],
       billingdate:['',[ Validators.required]],
       billingnumber:['',[ Validators.required]],
@@ -92,41 +92,70 @@ export class InwardComponent {
     this.filtertext = x.target.value; 
     // console.log(this.filtertext);
   }
-
-  onSelect(selected_dt : any=[]){  
-    let item_id = selected_dt.itemId;  
+  onSelectitem(itemid:any){
+    this.inwardform.patchValue({  
+      searchText: itemid,
+    }) 
+    this.filtertext = '';
+  }
+  additems(){
+    // console.log(this.inwardform);
+    let item_id = this.inwardform.value.searchText;
+    let quantity =  this.inwardform.value.quantity
     this.inwardform.patchValue({  
       searchText: '',
     }) 
     this.filtertext = '';
     this.selectedlist_items = this.itemlist.filter((e: { itemId: any }) => e.itemId == item_id);   
     // console.log(this.selectedlist_items[0])   
-    var checkarr = this.arrayitems.filter((e: { itemId: any }) => e.itemId == this.selectedlist_items[0].itemId);
-    // console.log(checkarr);
+    
     var ind = this.arrayitems.findIndex(function(element: { itemId: any; }){ 
      return element.itemId===item_id;
     })
     if(ind!==-1){
       this.arrayitems.splice(ind, 1)
-      this.selectedlist_items[0].quantity='';
+      this.selectedlist_items[0].quantity=quantity;
       this.arrayitems.push(this.selectedlist_items[0]);
     }
     else{ 
-      this.selectedlist_items[0].quantity='';
+      this.selectedlist_items[0].quantity=quantity;
       this.arrayitems.push(this.selectedlist_items[0]);
-    } 
-    // console.log(this.arrayitems);  
-  }
-  
-  onarraychange(){    
-    // console.log(this.arrayitems);  
+    }
+    this.inwardform.patchValue({  
+      quantity: '',
+    })
     this.show_submit_button = 2;
-  } 
+  }
+  // onSelect(selected_dt : any=[]){  
+  //   let item_id = selected_dt.itemId;  
+  //   this.inwardform.patchValue({  
+  //     searchText: '',
+  //   }) 
+  //   this.filtertext = '';
+  //   this.selectedlist_items = this.itemlist.filter((e: { itemId: any }) => e.itemId == item_id);   
+  //     // console.log(checkarr);
+  //   var ind = this.arrayitems.findIndex(function(element: { itemId: any; }){ 
+  //    return element.itemId===item_id;
+  //   })
+  //   if(ind!==-1){
+  //     this.arrayitems.splice(ind, 1)
+  //     this.selectedlist_items[0].quantity='';
+  //     this.arrayitems.push(this.selectedlist_items[0]);
+  //   }
+  //   else{ 
+  //     this.selectedlist_items[0].quantity='';
+  //     this.arrayitems.push(this.selectedlist_items[0]);
+  //   } 
+  //   // console.log(this.arrayitems);  
+  // }
+  
+  // onarraychange(){    
+  //   // console.log(this.arrayitems);  
+  //   this.show_submit_button = 2;
+  // } 
  
   removeItem(body:any  = []){
-    // console.log(body)
-    var checkarr = this.arrayitems.filter((e: { itemId: any }) => e.itemId == body.itemId);
-    // console.log(checkarr);
+    
     var ind = this.arrayitems.findIndex(function(element: { itemId: any; }){ 
      return element.itemId===body.itemId;
     })

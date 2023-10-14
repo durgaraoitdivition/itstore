@@ -55,7 +55,7 @@ export class HeaderComponent {
     this.instList = JSON.parse(this.logininfo).institute_info;
     this.permissionInfo = JSON.parse(this.logininfo).permission_info;
     this.userInfo = JSON.parse(this.logininfo).user_info;
-    console.log(this.userInfo)
+    // console.log(this.userInfo)
     this.defaultcampus = this.campusList.filter(e => e['id'] === this.userInfo[0]['campus_id']);
     this.defaultinst = this.instList.filter(e => e['id'] === this.userInfo[0]['inst_id']);
 
@@ -94,7 +94,7 @@ export class HeaderComponent {
     // console.log(this.cmp_filter);
     // console.log(this.user_store_dt[0])
     this.user_store_dt = sessionStorage.getItem('user_store_dt');
-    console.log(JSON.parse(this.user_store_dt))
+    // console.log(JSON.parse(this.user_store_dt))
     let temp_var = JSON.parse(this.user_store_dt);
     temp_var[0].storeDetails[0].defaultCampus = this.cmp_filter[0].campus_shortcode;
     sessionStorage.setItem('user_store_dt',JSON.stringify(temp_var));
